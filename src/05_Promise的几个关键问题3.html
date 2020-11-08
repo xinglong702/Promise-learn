@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关键问题3</title>
+</head>
+<body>
+<script>
+    /*
+        Promise.then()返回的新promise的结果状态由什么决定？
+        （1）简单表述：由then()指定的回调函数执行的结果决定
+        （2）详细表述：
+            1. 如果抛出异常，新Promise变为rejected，reason为抛出的异常
+            2. 如果返回的是非Promise的任意值，新Promise变为resolved，value为返回的值
+            3. 如果返回的是另一个新Promise，此Promise的结果就会变为新Promise的结果
+     */
+
+    const p = new Promise(((resolve, reject) => {
+        // resolve(1)
+        reject(-1)
+    })).then(
+        value => {
+            console.log(value, 'onResolved1()')  // 啥都不返回，意味着return undefined，所以结果为resolved(),value=undefined
+            // return 1111
+        },
+        reason => {
+            console.log(reason, 'onRejected1()')
+            // return Promise.reject(2222
+            // throw 222222
+        }
+    ).then(
+        value => {
+            console.log(value, 'onResolved2()')
+        },
+        reason => {
+            console.log(reason, 'onRejected2()')
+        }
+    )
+</script>
+</body>
+</html>

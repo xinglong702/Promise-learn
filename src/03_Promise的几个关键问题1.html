@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关键问题1</title>
+</head>
+<body>
+<script>
+    /*
+    (1) resolve(1)----->pending=>resolved
+    (2) rejected(2)----->pending=>rejected
+
+    (3) 抛出异常------>pending=>rejected
+
+     */
+
+    const p = new Promise(((resolve, reject) => {
+        throw 3;
+        // throw new Error("feifei")
+    }))
+    p.then(
+        value => {},
+        reason => {
+            console.log(reason)
+        }
+    )
+    p.then(
+        value => {},
+        reason => {
+            alert(reason)                       //多个then都会执行
+        }
+    )
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关键问题2</title>
+</head>
+<body>
+<script>
+    /*
+        常规的，一般是先指定回调函数，后改变状态
+     */
+
+    const p = new Promise(((resolve, reject) => {
+        setTimeout(() => {
+            resolve(1)           //异步函数完成时，才改变状态，返回value
+        }, 1000)
+    })).then(                   // then先执行，指定回调函数,保存当前指定的回调函数
+        value => {
+            console.log(value, '成功')
+        },
+        reason => {
+            console.log(reason, '失败')
+        }
+    )
+
+    /*
+        也有可反过来
+     */
+    const p1 = Promise.resolve(1)  //先改变状态，并保存返回的value
+    p1.then(
+        value => {
+            console.log(value, '成功')       //后指定回调函数，这个时候已经有值了
+        }
+    )
+
+
+    /*
+        第三种情况(给then也加延迟)
+     */
+
+    setTimeout(() => {
+        p.then(
+            value => {
+                console.log(value, '成功')       //后指定回调函数，这个时候已经有值了
+            }
+        )
+    }, 5000)
+</script>
+
+</body>
+</html>

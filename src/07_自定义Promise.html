@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义Promise</title>
+</head>
+<body>
+<script src="lib/myPromise_ES6_class.js"></script>
+<script>
+    const p = new MyPromise(((resolve, reject) => {
+        setTimeout(() => {
+            resolve(1111115555555551)
+        }, 100)
+    }))
+
+
+    // p.then(
+    //     value => {
+    //         console.log('onResolved1()', value)
+    //     },
+    //     reason => {
+    //         console.log('onRejected1()', reason)
+    //         return MyPromise.reject(9999)
+    //     }
+    // ).then(
+    //     value => {
+    //         console.log('onResolved2()', value)
+    //     },
+    //     reason => {
+    //         console.log('onRejected2()', reason)
+    //         return new MyPromise(((resolve, reject) => {
+    //             reject(999)
+    //         }))
+    //     }
+    // ).catch(reason => {
+    //     console.log('onRejected3()', reason)
+    // })
+
+    const p2 = MyPromise.resolve(1111111)
+    const p3 = MyPromise.resolve(2222222)
+    const p4 = MyPromise.resolve(3333333)
+    const pAll = MyPromise.all([p, p3, p4, 8978])
+    pAll.then(
+        value => {
+            console.log(value, 6)
+        },
+        result => {
+            console.log(result, 3)
+        }
+    )
+
+    const pRace = MyPromise.race([8888, p, p3, p4])
+    pRace.then(
+        value => {
+            console.log(value, 666)
+        },
+        result => {
+            console.log(result, 3666)
+        }
+    )
+
+</script>
+</body>
+</html>

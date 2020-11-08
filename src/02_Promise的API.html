@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise的API</title>
+</head>
+<body>
+<script>
+    /*
+        Promise.resolve()
+        Promise.reject()
+        Promise.all()
+        Promise.race()
+     */
+    const p = new Promise((resolve, reject) => {     //Promise的状态只能改变一次
+        setTimeout(() => {
+           resolve('成功的数据')
+           // reject('失败的数据')
+        }, 1000)
+    })
+
+    const p1 = new Promise(((resolve, reject) => {
+        resolve(1)
+    }))
+
+    const p2 = Promise.resolve(2)                     //语法糖，产生一个成功的value为1的Promise
+    const p3 = Promise.reject(3)
+    // const p4 = Promise.reject(4)
+
+    const pAll = Promise.all([p, p1, p2])    // 并的关系
+
+    pAll.then(
+        values => {
+            console.log('成功', values)           // (3) ["成功的数据", 1, 2]0: "成功的数据"1: 12: 2length: 3__proto__: Array(0)
+        },
+        reason => {
+            console.log('失败', reason)
+        }
+    )
+
+    const pRace = Promise.race([p, p2, p3])     // 由第一个完成的决定（Race竞赛）
+    pRace.then(
+        value => {
+            console.log('成功', value)
+        },
+        reason => {
+            console.log('失败', reason)
+        }
+    )
+
+</script>
+</body>
+</html>
